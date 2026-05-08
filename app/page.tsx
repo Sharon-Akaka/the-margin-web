@@ -139,13 +139,13 @@ export default function HomePage() {
                   {/* Placeholder — replace with <ArticleVideo src="/videos/s1-hook.mp4"> */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
                     <svg viewBox="0 0 96 96" width="40" height="40" className="mb-4 opacity-50">
-                      <rect x="8"  y="62" width="11" height="18" rx="2" fill="#D8CBAD" opacity="0.4"/>
-                      <rect x="24" y="50" width="11" height="30" rx="2" fill="#D8CBAD" opacity="0.5"/>
-                      <rect x="40" y="38" width="11" height="42" rx="2" fill="#D8CBAD" opacity="0.65"/>
-                      <rect x="56" y="54" width="11" height="26" rx="2" fill="#D8CBAD" opacity="0.5"/>
-                      <rect x="72" y="26" width="11" height="54" rx="2" fill="#E63329"/>
-                      <circle cx="77.5" cy="22" r="7" fill="#F5EEDE" stroke="#E63329" strokeWidth="2.5"/>
-                      <circle cx="77.5" cy="22" r="2.5" fill="#E63329"/>
+                      <rect x="8"  y="68" width="13" height="14" rx="2" fill="#D8CBAD" opacity="0.35"/>
+                      <rect x="26" y="56" width="13" height="26" rx="2" fill="#D8CBAD" opacity="0.50"/>
+                      <rect x="44" y="42" width="13" height="40" rx="2" fill="#D8CBAD" opacity="0.65"/>
+                      <rect x="62" y="52" width="13" height="30" rx="2" fill="#D8CBAD" opacity="0.50"/>
+                      <rect x="74" y="24" width="6"  height="58" rx="2" fill="#E63329"/>
+                      <circle cx="77" cy="18" r="8"  fill="none" stroke="#E63329" strokeWidth="2.5"/>
+                      <circle cx="77" cy="18" r="3"  fill="#FBF6EC"/>
                     </svg>
                     <div className="font-display italic font-bold text-[18px] leading-snug" style={{ color: 'rgba(251,246,236,0.7)' }}>
                       Arsenal<br/>2025/26

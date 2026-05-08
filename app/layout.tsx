@@ -7,6 +7,12 @@ export const metadata: Metadata = {
     default:  'The Margin — Data-driven sports analysis by Sharon Akaka',
   },
   description: 'The Margin is a data-driven sports analysis brand. Numbers, context, stories that matter.',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/favicon.svg',
+  },
   openGraph: {
     siteName: 'The Margin',
     type:     'website',
