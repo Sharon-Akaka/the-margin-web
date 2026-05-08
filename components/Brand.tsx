@@ -45,7 +45,14 @@ export function Footer() {
   return (
     <footer className="tm-footer">
       <div className="tm-footer-logo">The Margin</div>
-      <div className="tm-footer-meta">© 2026 Sharon Akaka</div>
+      <div className="tm-footer-meta" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+        <a href="mailto:hello@findthemargin.com"
+          className="font-caps text-[11px] tracking-[0.08em] transition-opacity hover:opacity-70"
+          style={{ color: 'rgba(251,246,236,0.45)' }}>
+          hello@findthemargin.com
+        </a>
+        <span>© 2026 Sharon Akaka</span>
+      </div>
     </footer>
   );
 }

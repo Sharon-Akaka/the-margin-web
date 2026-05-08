@@ -36,10 +36,10 @@ export function StorySuggest() {
         setSent(true);
       } else {
         // Fallback: open mailto link
-        window.location.href = `mailto:sharon.akaka@gmail.com?subject=Story%20suggestion%20for%20The%20Margin&body=${encodeURIComponent(suggestion)}`;
+        window.location.href = `mailto:hello@findthemargin.com?subject=Story%20suggestion%20for%20The%20Margin&body=${encodeURIComponent(suggestion)}`;
       }
     } catch {
-      window.location.href = `mailto:sharon.akaka@gmail.com?subject=Story%20suggestion%20for%20The%20Margin&body=${encodeURIComponent(suggestion)}`;
+      window.location.href = `mailto:hello@findthemargin.com?subject=Story%20suggestion%20for%20The%20Margin&body=${encodeURIComponent(suggestion)}`;
     } finally {
       setLoading(false);
     }

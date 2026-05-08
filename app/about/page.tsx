@@ -44,7 +44,22 @@ function TikTokIcon() {
   );
 }
 
+function EmailIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="4" width="20" height="16" rx="2"/>
+      <polyline points="2,4 12,13 22,4"/>
+    </svg>
+  );
+}
+
 const SOCIAL_LINKS = [
+  {
+    label: 'Email',
+    handle: 'hello@findthemargin.com',
+    href: 'mailto:hello@findthemargin.com',
+    Icon: EmailIcon,
+  },
   {
     label: 'LinkedIn',
     handle: 'Sharon Akaka',
