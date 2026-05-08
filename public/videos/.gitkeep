@@ -1,0 +1,12 @@
+# Place your Remotion video exports here.
+# Render from sketch-fc-reel with:
+#   npx remotion render src/index.ts SketchFC out/full.mp4
+# Then trim and export individual clips:
+#   s1-hook.mp4        (0–330 frames)
+#   s2-wound.mp4       (330–690 frames)
+#   s3-evidence.mp4    (690–1110 frames)
+#   s4-system.mp4      (1110–1440 frames)
+#   s5-scale.mp4       (1440–1710 frames)
+#   s6-generation.mp4  (1710–1920 frames)
+#   s7-closer.mp4      (1920–2130 frames)
+# Note: these files are gitignored due to size.
