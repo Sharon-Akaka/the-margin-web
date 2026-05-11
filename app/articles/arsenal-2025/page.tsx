@@ -454,8 +454,7 @@ export default function ArsenalArticle() {
 
             <p className="font-caps text-[11px] mt-6 pt-4"
               style={{ color: 'rgba(22,36,63,0.35)', lineHeight: 1.7, borderTop: '1px solid rgba(22,36,63,0.07)' }}>
-              Data visualisations built with CSS/SVG. Current table figures checked against public standings;
-              editorial context is separated from audited accounts and model-based projections.
+              Data visualisations built with CSS/SVG. Current table figures checked against public standings.
               Written analysis by Sharon Akaka · The Margin · 2026.
             </p>
           </div>
