@@ -246,7 +246,7 @@ export function PointsTimeline() {
         <div style={{ height: 1, background: C.inkFaint, marginTop: 4 }}/>
         <div className="font-caps text-[10px] mt-4" style={{ color: 'rgba(22,36,63,0.35)', lineHeight: 1.7 }}>
           2025/26 is current table data after {ARSENAL.currentRecord.played} matches, not a projected final total.
-          Win the remaining two and the ceiling is {ARSENAL.maxPossiblePoints} points.
+          If Arsenal win both remaining league games, the ceiling is {ARSENAL.maxPossiblePoints} points.
         </div>
       </div>
     </VizWrap>
@@ -272,7 +272,7 @@ export function WinRateRing() {
 
   const rings = [
     {
-      label: 'Current points\nof max possible',
+      label: 'Points if Arsenal\nwin both games',
       value: pctPoints,
       pct: Math.round((ARSENAL.currentPoints / ARSENAL.maxPossiblePoints) * 100),
       color: C.signal,

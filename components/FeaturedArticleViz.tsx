@@ -61,8 +61,8 @@ export function FeaturedArticleViz() {
               {ARSENAL.maxPossiblePoints}
             </div>
             <div className="font-caps font-semibold uppercase tracking-[0.14em] mt-2"
-              style={{ color: 'rgba(251,246,236,0.36)', fontSize: 8 }}>
-              max possible
+              style={{ color: 'rgba(251,246,236,0.36)', fontSize: 8, lineHeight: 1.35 }}>
+              if Arsenal win<br/>both games
             </div>
           </div>
         </div>
