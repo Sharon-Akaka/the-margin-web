@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ExternalArrowIcon, Footer, Kicker, PrimaryLink } from '@/components/Brand';
+import { EditorialSection, ExternalArrowIcon, Footer, Kicker, PrimaryLink, SectionHeader } from '@/components/Brand';
 import { Nav } from '@/components/Nav';
 
 export const metadata: Metadata = {
@@ -63,17 +63,17 @@ const DISCIPLINES = [
   {
     n: '01',
     title: 'History',
-    body: 'History taught me that data is never just data — it\'s evidence. Learning to read primary sources, question context, and separate cause from correlation turned out to be exactly the right training for sports analysis.',
+    body: 'History taught me that data is never just data. It\'s evidence. Learning to read primary sources, question context, and separate cause from correlation turned out to be exactly the right training for sports analysis.',
   },
   {
     n: '02',
     title: 'Software Engineering & Product',
-    body: 'I work in product at Arsenal — sitting at the intersection of football and technology every day. That insider view, combined with years writing code professionally, means I can build the analysis tools, the data visualisations, and this website from scratch. The engineering enables the journalism.',
+    body: 'I work in product at Arsenal, sitting at the intersection of football and technology every day. That insider view, combined with years writing code professionally, means I can build the analysis tools, the data visualisations, and this website from scratch. The engineering enables the journalism.',
   },
   {
     n: '03',
     title: 'MA Digital Media Management',
-    body: 'My masters gave me the toolkit to think seriously about how stories travel — editing, production, the mechanics of digital storytelling. If the writing is the argument, the reel is the evidence you can actually feel.',
+    body: 'My masters gave me the toolkit to think seriously about how stories travel: editing, production, and the mechanics of digital storytelling. If the writing is the argument, the reel is the evidence you can actually feel.',
   },
 ];
 
@@ -86,7 +86,7 @@ const FORMULA = [
   {
     step: '02',
     label: 'The Context',
-    desc: 'History, tactics, economics. What was happening around the data — why it means what it means, and what people got wrong.',
+    desc: 'History, tactics, economics. What was happening around the data, why it means what it means, and what people got wrong.',
   },
   {
     step: '03',
@@ -101,46 +101,22 @@ export default function AboutPage() {
       <Nav />
 
       {/* ── HERO ── */}
-      <section className="relative w-full flex flex-col overflow-hidden"
-        style={{ background: '#16243F', minHeight: '100vh', paddingTop: '8rem' }}>
-
-        {/* Ruled lines */}
-        <div className="absolute inset-0 pointer-events-none" aria-hidden="true"
-          style={{ backgroundImage: 'repeating-linear-gradient(0deg, rgba(251,246,236,0.04) 0px, rgba(251,246,236,0.04) 1px, transparent 1px, transparent 40px)' }}/>
-
-        {/* Signal left bar */}
-        <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ background: '#E63329', opacity: 0.5 }}/>
-
-        {/* Ghost watermark */}
-        <div className="absolute pointer-events-none select-none" aria-hidden="true"
-          style={{
-            top: '-60px', right: '-30px',
-            fontFamily: 'Fraunces, Georgia, serif',
-            fontWeight: 900, fontStyle: 'italic',
-            fontSize: 'clamp(220px, 36vw, 480px)',
-            color: '#FBF6EC', opacity: 0.04,
-            lineHeight: 1, letterSpacing: '-0.04em',
-          }}>
-          WHY
-        </div>
+      <section className="relative w-full overflow-hidden"
+        style={{ background: '#16243F', minHeight: 680, paddingTop: '7rem', paddingBottom: '5rem' }}>
 
         {/* Headline area */}
-        <div className="relative flex-1 flex flex-col justify-center px-8 md:px-16 max-w-4xl"
-          style={{ paddingBottom: '3rem' }}>
+        <div className="relative px-8 md:px-16 max-w-3xl">
 
           <Kicker className="mb-8">About The Margin</Kicker>
 
           <h1 className="font-display font-black italic leading-none"
-            style={{ fontSize: 'clamp(56px, 10vw, 112px)', color: '#FBF6EC', letterSpacing: '-0.025em', lineHeight: 0.92, marginBottom: 34 }}>
+            style={{ fontSize: 'clamp(44px, 7vw, 78px)', color: '#FBF6EC', letterSpacing: '-0.02em', lineHeight: 0.98, marginBottom: 28 }}>
             The data<br/>was always<br/>there.
           </h1>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 34 }}>
-            <div style={{ width: 56, height: 1, background: 'rgba(200,162,75,0.5)' }}/>
-            <div className="font-caps text-[10px] font-semibold tracking-[0.2em] uppercase"
-              style={{ color: 'rgba(251,246,236,0.35)' }}>
-              by Sharon Akaka
-            </div>
+          <div className="font-caps text-[10px] font-semibold tracking-[0.2em] uppercase"
+            style={{ color: 'rgba(251,246,236,0.35)', marginBottom: 28 }}>
+            by Sharon Akaka
           </div>
 
           <p className="font-caps text-[15px] max-w-lg"
@@ -149,47 +125,20 @@ export default function AboutPage() {
             a software engineering background, an MA in Digital Media Management,
             and a genuine obsession with <em>why</em> things happen all end up in the same room.
           </p>
-        </div>
 
-        {/* Credentials strip — anchored to the bottom of the hero */}
-        <div className="relative px-8 md:px-16"
-          style={{ borderTop: '1px solid rgba(200,162,75,0.15)' }}>
-          <div className="grid grid-cols-2 md:grid-cols-4">
-            {[
-              { label: 'History',     sub: 'BA (Hons)'       },
-              { label: 'Arsenal',     sub: 'Product Role'    },
-              { label: 'Engineering', sub: 'Software'        },
-              { label: 'Media',       sub: 'MA Digital'      },
-            ].map(({ label, sub }, i) => (
-              <div key={label}
-                style={{
-                  padding: '34px 21px 34px 0',
-                  paddingLeft: i > 0 ? 21 : 0,
-                  borderLeft: i > 0 ? '1px solid rgba(200,162,75,0.1)' : 'none',
-                }}>
-                <div className="font-caps font-semibold tracking-[0.22em] uppercase"
-                  style={{ fontSize: 9, color: 'rgba(200,162,75,0.5)', marginBottom: 5 }}>
-                  {sub}
-                </div>
-                <div className="font-display font-black italic"
-                  style={{ fontSize: 'clamp(18px, 2.5vw, 26px)', color: '#FBF6EC', letterSpacing: '-0.02em', lineHeight: 1 }}>
-                  {label}
-                </div>
-              </div>
-            ))}
+          <div className="tm-hero-credentials" aria-label="Background">
+            <span>BA History</span>
+            <span>Arsenal Product</span>
+            <span>Software Engineering</span>
+            <span>MA Digital Media</span>
           </div>
         </div>
       </section>
 
       {/* ── ORIGIN ── */}
-      <section style={{ background: '#F5EEDE', paddingTop: 89, paddingBottom: 89 }}>
-        <div className="px-8 md:px-16 max-w-3xl mx-auto">
-
+      <EditorialSection>
           {/* Section header with extending rule */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 21, marginBottom: 55 }}>
-            <Kicker>Where it started</Kicker>
-            <div style={{ flex: 1, height: 1, background: '#D8CBAD' }}/>
-          </div>
+          <SectionHeader>Where it started</SectionHeader>
 
           <h2 className="font-display font-bold italic"
             style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', color: '#16243F', letterSpacing: '-0.02em', lineHeight: 1.0, marginBottom: 34 }}>
@@ -207,7 +156,7 @@ export default function AboutPage() {
             <p>
               Working in product also means I sit at the intersection of football and
               technology every day. Football is one of those rare industries where technology
-              is still in its early stages of solving real problems — from performance analytics
+              is still in its early stages of solving real problems, from performance analytics
               to fan experience to operational infrastructure. Being inside that process,
               seeing where the data actually goes and what questions it genuinely answers,
               has shaped how I think about sports analysis entirely.
@@ -218,7 +167,7 @@ export default function AboutPage() {
           <div style={{ margin: '55px 0', borderLeft: '3px solid #E63329', paddingLeft: 34 }}>
             <p className="font-display font-bold italic"
               style={{ fontSize: 'clamp(22px, 3.5vw, 32px)', color: '#16243F', letterSpacing: '-0.015em', lineHeight: 1.2 }}>
-              That gap between what the data says and what gets communicated publicly —
+              That gap between what the data says and what gets communicated publicly:
               that&apos;s the margin.
             </p>
           </div>
@@ -236,17 +185,11 @@ export default function AboutPage() {
               I wanted to understand why. And I wanted to show other people why too.
             </p>
           </div>
-        </div>
-      </section>
+      </EditorialSection>
 
       {/* ── BACKGROUND ── */}
-      <section style={{ background: '#16243F', paddingTop: 89, paddingBottom: 89 }}>
-        <div className="px-8 md:px-16 max-w-3xl mx-auto">
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 21, marginBottom: 55 }}>
-            <Kicker tone="gold">The background</Kicker>
-            <div style={{ flex: 1, height: 1, background: 'rgba(200,162,75,0.15)' }}/>
-          </div>
+      <EditorialSection tone="ink">
+          <SectionHeader tone="gold">The background</SectionHeader>
 
           {DISCIPLINES.map(({ n, title, body }, i) => (
             <div key={n} className="relative"
@@ -286,17 +229,11 @@ export default function AboutPage() {
               </div>
             </div>
           ))}
-        </div>
-      </section>
+      </EditorialSection>
 
       {/* ── THE FORMULA ── */}
-      <section style={{ background: '#F5EEDE', paddingTop: 89, paddingBottom: 89 }}>
-        <div className="px-8 md:px-16 max-w-3xl mx-auto">
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 21, marginBottom: 55 }}>
-            <Kicker>The formula</Kicker>
-            <div style={{ flex: 1, height: 1, background: '#D8CBAD' }}/>
-          </div>
+      <EditorialSection>
+          <SectionHeader>The formula</SectionHeader>
 
           <h2 className="font-display font-bold italic"
             style={{ fontSize: 'clamp(28px, 4.5vw, 44px)', color: '#16243F', letterSpacing: '-0.02em', lineHeight: 1.0, marginBottom: 55 }}>
@@ -328,46 +265,41 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
+      </EditorialSection>
 
-      {/* ── PULLQUOTE ── */}
-      <section style={{ background: '#16243F', paddingTop: 89, paddingBottom: 89 }}>
-        <div className="px-8 md:px-16 max-w-3xl mx-auto">
-          <blockquote style={{ borderLeft: '4px solid #E63329', paddingLeft: 34 }}>
-            <p className="font-display font-black italic"
-              style={{ fontSize: 'clamp(26px, 4.5vw, 48px)', color: '#FBF6EC', letterSpacing: '-0.02em', lineHeight: 1.05, marginBottom: 21 }}>
-              &ldquo;It&apos;s incredible what story the data tells — if you&apos;re
-              actually willing to look at it honestly.&rdquo;
+      {/* ── EDITORIAL NOTE ── */}
+      <EditorialSection tone="ink">
+          <div className="max-w-3xl" style={{ borderLeft: '3px solid #E63329', paddingLeft: 28 }}>
+            <p className="font-caps font-semibold tracking-[0.2em] uppercase"
+              style={{ fontSize: 10, color: 'rgba(200,162,75,0.72)', marginBottom: 18 }}>
+              Editorial approach
             </p>
-            <cite className="font-caps font-semibold tracking-[0.18em] uppercase not-italic"
-              style={{ fontSize: 10, color: 'rgba(200,162,75,0.6)' }}>
-              Sharon Akaka — Founder, The Margin
-            </cite>
-          </blockquote>
-        </div>
-      </section>
+            <p className="font-display font-bold italic"
+              style={{ fontSize: 'clamp(24px, 3.6vw, 38px)', color: '#FBF6EC', letterSpacing: '-0.015em', lineHeight: 1.12, marginBottom: 18 }}>
+              The Margin looks for the gap between the numbers, the context, and the story people are already telling.
+            </p>
+            <p className="font-caps text-[14px]"
+              style={{ color: 'rgba(251,246,236,0.5)', lineHeight: 1.8, maxWidth: '58ch' }}>
+              The aim is simple: make the analysis rigorous enough for people who know the game, and clear enough for people who are just arriving.
+            </p>
+          </div>
+      </EditorialSection>
 
       {/* ── FROM SHARON ── */}
-      <section style={{ background: '#F5EEDE', paddingTop: 89, paddingBottom: 89 }}>
-        <div className="px-8 md:px-16 max-w-3xl mx-auto">
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 21, marginBottom: 55 }}>
-            <Kicker>From Sharon</Kicker>
-            <div style={{ flex: 1, height: 1, background: '#D8CBAD' }}/>
-          </div>
+      <EditorialSection>
+          <SectionHeader>From Sharon</SectionHeader>
 
           <div className="space-y-5 font-caps text-[15px]"
             style={{ color: 'rgba(22,36,63,0.7)', lineHeight: 1.85, marginBottom: 55 }}>
             <p>
               I spent years in software engineering building things for other people&apos;s
-              visions. I loved the craft of it. But the itch was always there — to build
+              visions. I loved the craft of it. But the itch was always there: to build
               something where the subject matter actually kept me up at night.
               Where the research felt like reading, not work.
             </p>
             <p>
-              Coming back to football — specifically to the question of <em>why</em> it
-              unfolds the way it does — felt like all my different interests finally
+              Coming back to football, specifically to the question of <em>why</em> it
+              unfolds the way it does, felt like all my different interests finally
               agreeing with each other. The history instinct that asks what came before
               this. The engineering mindset that asks how we actually build this.
               The media skills that ask how we make people feel it, not just understand it.
@@ -379,8 +311,7 @@ export default function AboutPage() {
           </div>
 
           {/* Sign-off */}
-          <div className="flex items-center gap-5"
-            style={{ borderTop: '1px solid #D8CBAD', paddingTop: 34 }}>
+          <div className="tm-signoff">
             <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
               style={{ background: '#E63329' }}>
               <span className="font-display font-black italic text-[14px]" style={{ color: '#FBF6EC' }}>SA</span>
@@ -395,23 +326,17 @@ export default function AboutPage() {
                 Founder, The Margin
               </p>
             </div>
-            <div className="ml-auto">
+            <div className="ml-auto tm-signoff-action">
               <PrimaryLink href="/articles/arsenal-2025">
                 Read the first piece
               </PrimaryLink>
             </div>
           </div>
-        </div>
-      </section>
+      </EditorialSection>
 
       {/* ── FIND ME ── */}
-      <section style={{ background: '#16243F', paddingTop: 89, paddingBottom: 89 }}>
-        <div className="px-8 md:px-16 max-w-3xl mx-auto">
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 21, marginBottom: 55 }}>
-            <Kicker tone="gold">Find me</Kicker>
-            <div style={{ flex: 1, height: 1, background: 'rgba(200,162,75,0.15)' }}/>
-          </div>
+      <EditorialSection tone="ink">
+          <SectionHeader tone="gold">Find me</SectionHeader>
 
           <div className="grid sm:grid-cols-2 gap-0">
             {SOCIAL_LINKS.map(({ label, handle, href, Icon }, i) => (
@@ -450,10 +375,9 @@ export default function AboutPage() {
 
           <p className="font-caps"
             style={{ fontSize: 11, color: 'rgba(251,246,236,0.25)', lineHeight: 1.7, marginTop: 34 }}>
-            Platforms are being set up — follow to be notified when The Margin goes live.
+            Platforms are being set up. Follow to be notified when The Margin goes live.
           </p>
-        </div>
-      </section>
+      </EditorialSection>
 
       <Footer />
     </>

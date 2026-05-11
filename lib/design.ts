@@ -24,13 +24,17 @@ export const ARSENAL = {
   yearsDrought:      21,
   runnerUp2223:      { days: 248,  points: 84  },
   runnerUp2324:      { days: null, points: 89  },
-  runnerUp2425:      { days: null, points: 88  },  // update with actuals
-  currentPoints:     87,     // live season — update
+  runnerUp2425:      { days: null, points: 74  },
+  currentPoints:     79,
+  currentRecord:     { played: 36, won: 24, drawn: 7, lost: 5 },
+  goalsFor:          68,
+  goalsAgainst:      26,
+  maxPossiblePoints: 85,
   leaguePosition:    1,
-  goalDifference:    '+52',
+  goalDifference:    '+42',
   arteta:            { year: 2019, winRate: 0.62 },
   revenue:           730,    // £730m — approx
-  academyPlayers:    ['Bukayo Saka', 'Gabriel Martinelli', 'Ethan Nwaneri', 'Myles Lewis-Skelly'],
+  academyPlayers:    ['Bukayo Saka', 'Ethan Nwaneri', 'Myles Lewis-Skelly', 'Max Dowman'],
 } as const;
 
 // ── Video clip paths (export from Remotion, place in public/videos/) ──────────

@@ -56,3 +56,28 @@ export function Footer() {
     </footer>
   );
 }
+
+export function SectionHeader({ children, tone = 'signal' }: {
+  children: React.ReactNode;
+  tone?: 'signal' | 'gold';
+}) {
+  return (
+    <div className="tm-section-header">
+      <Kicker tone={tone}>{children}</Kicker>
+      <div className={tone === 'gold' ? 'tm-section-rule tm-section-rule-gold' : 'tm-section-rule'} />
+    </div>
+  );
+}
+
+export function EditorialSection({ children, tone = 'linen' }: {
+  children: React.ReactNode;
+  tone?: 'linen' | 'ink';
+}) {
+  return (
+    <section className={tone === 'ink' ? 'tm-editorial-section tm-section-ink' : 'tm-editorial-section tm-section-linen'}>
+      <div className="tm-container">
+        {children}
+      </div>
+    </section>
+  );
+}

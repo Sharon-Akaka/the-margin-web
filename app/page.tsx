@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowIcon, Footer, Kicker, PrimaryLink } from '@/components/Brand';
+import { FeaturedArticleViz } from '@/components/FeaturedArticleViz';
 import { Nav } from '@/components/Nav';
 import { SubstackCTA } from '@/components/SubstackCTA';
 import { StorySuggest } from '@/components/StorySuggest';
@@ -10,42 +11,8 @@ export default function HomePage() {
       <Nav />
 
       {/* ── HERO ── */}
-      <section className="relative w-full min-h-screen flex flex-col items-start justify-center px-8 md:px-16 overflow-hidden"
-        style={{ background: '#16243F', paddingTop: '8rem', paddingBottom: '7rem' }}>
-
-        {/* Archive cream strip — top edge (from S1Hook editorial frame) */}
-        <div className="absolute top-0 left-0 right-0 pointer-events-none" aria-hidden="true"
-          style={{ height: 14, background: '#FBF6EC', opacity: 0.12 }}/>
-
-        {/* Ghost watermark "21" — bolder, more present */}
-        <div className="absolute pointer-events-none select-none" aria-hidden="true"
-          style={{
-            top: '-20px',
-            right: '-20px',
-            fontFamily: 'Fraunces, Georgia, serif',
-            fontWeight: 900,
-            fontStyle: 'italic',
-            fontSize: 'clamp(340px, 48vw, 600px)',
-            color: '#FBF6EC',
-            opacity: 0.05,
-            lineHeight: 1,
-            letterSpacing: '-0.04em',
-          }}>
-          21
-        </div>
-
-        {/* Ruled lines — horizontal grid */}
-        <div className="absolute inset-0 pointer-events-none" aria-hidden="true"
-          style={{
-            backgroundImage: 'repeating-linear-gradient(0deg, rgba(251,246,236,0.04) 0px, rgba(251,246,236,0.04) 1px, transparent 1px, transparent 40px)',
-          }}/>
-
-        {/* Signal accent — left edge */}
-        <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ background: '#E63329', opacity: 0.5 }}/>
-
-        {/* Cream inner frame — right and bottom accents echoing the playbook card */}
-        <div className="absolute right-0 top-0 bottom-0 pointer-events-none" aria-hidden="true"
-          style={{ width: 1, background: 'rgba(251,246,236,0.08)' }}/>
+      <section className="relative w-full flex flex-col items-start justify-start px-8 md:px-16 overflow-hidden"
+        style={{ background: '#16243F', minHeight: '720px', paddingTop: '8.5rem', paddingBottom: '5rem' }}>
 
         <div className="relative max-w-3xl">
           {/* Kicker */}
@@ -55,17 +22,14 @@ export default function HomePage() {
 
           {/* Headline — "a" in signal red, from design playbook */}
           <h1 className="font-display font-black italic leading-none mb-10"
-            style={{ fontSize: 'clamp(76px, 13vw, 130px)', color: '#FBF6EC', letterSpacing: '-0.03em', lineHeight: 0.88 }}>
+            style={{ fontSize: 'clamp(64px, 10vw, 108px)', color: '#FBF6EC', letterSpacing: '-0.025em', lineHeight: 0.9 }}>
             The<br/>M<span style={{ color: '#E63329' }}>a</span>rgin.
           </h1>
 
           {/* Rule from playbook: thin cream line + byline */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 32 }}>
-            <div style={{ width: 56, height: 1, background: 'rgba(200,162,75,0.5)' }}/>
-            <div className="font-caps text-[10px] font-semibold tracking-[0.2em] uppercase"
-              style={{ color: 'rgba(251,246,236,0.35)' }}>
-              by Sharon Akaka
-            </div>
+          <div className="font-caps text-[10px] font-semibold tracking-[0.2em] uppercase"
+            style={{ color: 'rgba(251,246,236,0.35)', marginBottom: 32 }}>
+            by Sharon Akaka
           </div>
 
           {/* Subheading */}
@@ -86,9 +50,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Archive cream strip — bottom edge */}
-        <div className="absolute bottom-0 left-0 right-0 pointer-events-none" aria-hidden="true"
-          style={{ height: 14, background: '#FBF6EC', opacity: 0.06 }}/>
       </section>
 
       {/* ── FEATURED ARTICLE ── */}
@@ -104,8 +65,7 @@ export default function HomePage() {
           </div>
 
           {/* Article card */}
-          <Link href="/articles/arsenal-2025" className="block group">
-            <div className="grid md:grid-cols-5 gap-8 md:gap-12 items-center">
+          <Link href="/articles/arsenal-2025" className="grid md:grid-cols-5 gap-8 md:gap-12 items-center group">
 
               {/* Text — 3 cols */}
               <div className="md:col-span-3 order-2 md:order-1">
@@ -120,44 +80,24 @@ export default function HomePage() {
                 <div className="rule-gold w-16 mb-6 opacity-60"/>
                 <p className="font-caps text-[14px] leading-relaxed mb-6"
                   style={{ color: 'rgba(22,36,63,0.6)', lineHeight: 1.75 }}>
-                  Twenty-one years. Three runner-up finishes in three seasons.
-                  A squad built on data, youth, and a tactical blueprint that finally
+                  Twenty-one completed league seasons without the title. Three runner-up finishes in three seasons.
+                  A squad built on data, youth, and a clear tactical plan that finally
                   has the rest of the league working out how to stop it.
                   The numbers tell a story most people haven&apos;t seen yet.
                 </p>
-                <div className="inline-flex items-center gap-2 font-caps text-[11px] font-semibold tracking-[0.12em] uppercase transition-opacity group-hover:opacity-70"
+                <div
+                  className="inline-flex items-center gap-2 font-caps text-[11px] font-semibold tracking-[0.12em] uppercase transition-opacity group-hover:opacity-70"
                   style={{ color: '#E63329' }}>
                   Read the piece
                   <ArrowIcon />
                 </div>
               </div>
 
-              {/* Video preview — 2 cols */}
+              {/* Animated preview — 2 cols */}
               <div className="md:col-span-2 order-1 md:order-2">
-                <div className="video-portrait max-w-[200px] mx-auto md:max-w-none shadow-2xl"
-                  style={{ background: '#16243F', border: '1px solid rgba(200,162,75,0.15)' }}>
-                  {/* Placeholder — replace with <ArticleVideo src="/videos/s1-hook.mp4"> */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-                    <svg viewBox="0 0 96 96" width="40" height="40" className="mb-4 opacity-50">
-                      <rect x="8"  y="68" width="13" height="14" rx="2" fill="#D8CBAD" opacity="0.35"/>
-                      <rect x="26" y="56" width="13" height="26" rx="2" fill="#D8CBAD" opacity="0.50"/>
-                      <rect x="44" y="42" width="13" height="40" rx="2" fill="#D8CBAD" opacity="0.65"/>
-                      <rect x="62" y="52" width="13" height="30" rx="2" fill="#D8CBAD" opacity="0.50"/>
-                      <rect x="74" y="24" width="6"  height="58" rx="2" fill="#E63329"/>
-                      <circle cx="77" cy="18" r="8"  fill="none" stroke="#E63329" strokeWidth="2.5"/>
-                      <circle cx="77" cy="18" r="3"  fill="#FBF6EC"/>
-                    </svg>
-                    <div className="font-display italic font-bold text-[18px] leading-snug" style={{ color: 'rgba(251,246,236,0.7)' }}>
-                      Arsenal<br/>2025/26
-                    </div>
-                    <div className="font-caps text-[9px] tracking-[0.16em] uppercase mt-3" style={{ color: 'rgba(251,246,236,0.3)' }}>
-                      Video reel
-                    </div>
-                  </div>
-                </div>
+                <FeaturedArticleViz />
               </div>
 
-            </div>
           </Link>
         </div>
       </section>
@@ -170,14 +110,12 @@ export default function HomePage() {
           </Kicker>
           <h3 className="font-display font-bold italic mb-6 leading-none"
             style={{ fontSize: 'clamp(28px,6vw,44px)', color: '#FBF6EC', letterSpacing: '-0.02em' }}>
-            Sports is full of narratives.<br/>Most of them are wrong.
+            The table tells you what happened.<br/>The margin explains why.
           </h3>
           <div className="rule-gold w-16 mx-auto mb-8 opacity-50"/>
           <p className="font-caps text-[14px] leading-relaxed" style={{ color: 'rgba(251,246,236,0.55)', lineHeight: 1.8 }}>
-            The Margin starts with the data, builds the context, and finds the story
-            that lives between the two. Each piece comes with its own animated data
-            visualisations — built from scratch, driven by real numbers — so the
-            argument moves as you read it.
+            The Margin starts with the numbers, adds the context, and turns the argument
+            into visual stories you can follow as you read.
           </p>
         </div>
       </section>

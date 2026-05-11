@@ -30,7 +30,7 @@ export function StorySuggest() {
       const res = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ suggestion, email, _subject: 'The Margin — story suggestion' }),
+        body: JSON.stringify({ suggestion, email, _subject: 'The Margin: story suggestion' }),
       });
       if (res.ok) {
         setSent(true);
@@ -46,28 +46,26 @@ export function StorySuggest() {
   }
 
   return (
-    <section className="py-20 px-8 md:px-16" style={{ background: '#16243F' }}>
-      <div className="max-w-2xl mx-auto">
+    <section className="px-8 md:px-16" style={{ background: '#16243F', paddingTop: 72, paddingBottom: 76 }}>
+      <div className="max-w-4xl mx-auto">
 
         {/* Kicker */}
-        <Kicker tone="gold" className="mb-6">
-          Community
+        <Kicker tone="gold" className="mb-5">
+          Suggest a story
         </Kicker>
 
         {/* Headline */}
-        <h2 className="font-display font-black italic leading-none mb-6"
-          style={{ fontSize: 'clamp(32px,7vw,52px)', color: '#FBF6EC', letterSpacing: '-0.025em', lineHeight: 0.95 }}>
-          What should I<br/>research next?
+        <h2 className="font-display font-black italic leading-none mb-5"
+          style={{ fontSize: 'clamp(30px,6vw,46px)', color: '#FBF6EC', letterSpacing: '-0.02em', lineHeight: 0.98 }}>
+          What should The Margin look into next?
         </h2>
 
-        <div className="rule-gold w-16 mb-8 opacity-50"/>
+        <div className="rule-gold w-14 mb-7 opacity-45"/>
 
-        <p className="font-caps text-[14px] leading-relaxed mb-10"
-          style={{ color: 'rgba(251,246,236,0.55)', lineHeight: 1.8 }}>
-          The Margin is data-driven, but the questions it chases should come from
-          the people who care most about sports. Tell me what you want to understand —
-          a team, a player, a transfer, a pattern, a stat that never made sense to you.
-          I&apos;ll research it properly and write it up.
+        <p className="font-caps text-[14px] leading-relaxed mb-8 max-w-2xl"
+          style={{ color: 'rgba(251,246,236,0.58)', lineHeight: 1.75 }}>
+          Send a team, player, transfer, pattern, or stat that has never quite made
+          sense. Good questions become future pieces.
         </p>
 
         {sent ? (
@@ -79,13 +77,13 @@ export function StorySuggest() {
             </div>
             <div className="rule-gold w-16 mx-auto mb-6 opacity-50"/>
             <p className="font-caps text-[13px]" style={{ color: 'rgba(251,246,236,0.55)', lineHeight: 1.7 }}>
-              Thanks for the suggestion. I read everything that comes in —
+              Thanks for the suggestion. I read everything that comes in.
               if it becomes an article you&apos;ll hear about it first via the newsletter.
             </p>
           </div>
         ) : (
           /* ── Form ── */
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="grid md:grid-cols-[1fr_300px] gap-5 md:gap-6">
             <div>
               <label className="font-caps text-[10px] font-semibold tracking-[0.18em] uppercase block mb-2"
                 style={{ color: 'rgba(251,246,236,0.45)' }}>
@@ -96,42 +94,44 @@ export function StorySuggest() {
                 onChange={e => setSuggestion(e.target.value)}
                 rows={4}
                 required
-                placeholder="e.g. Why does pressing intensity drop in the second half? What do the numbers say about keeper decision-making? Is there a correlation between squad age and title chances..."
+                placeholder="e.g. Why do teams fade after half-time? Are younger squads better in title races? Which transfers changed a team most?"
                 className="tm-input px-4 py-3 resize-none"
                 style={{
                   lineHeight: 1.7,
+                  minHeight: 148,
                 }}
               />
             </div>
 
-            <div>
-              <label className="font-caps text-[10px] font-semibold tracking-[0.18em] uppercase block mb-2"
-                style={{ color: 'rgba(251,246,236,0.45)' }}>
-                Email (optional — if you want a reply)
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="tm-input px-4 py-3"
-              />
-            </div>
+            <div className="flex flex-col justify-end gap-4">
+              <div>
+                <label className="font-caps text-[10px] font-semibold tracking-[0.18em] uppercase block mb-2"
+                  style={{ color: 'rgba(251,246,236,0.45)' }}>
+                  Email, optional
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="tm-input px-4 py-3"
+                />
+              </div>
 
-            <div className="flex items-center gap-4 mt-2">
               <button
-                type="submit"
-                disabled={loading || !suggestion.trim()}
-                className="tm-button tm-button-primary disabled:opacity-50"
-                style={{
-                  cursor: suggestion.trim() ? 'pointer' : 'not-allowed',
-                  border: 'none',
-                }}>
-                {loading ? 'Sending...' : 'Send suggestion'}
-                {!loading && <ArrowIcon />}
-              </button>
-              <span className="font-caps text-[10px]" style={{ color: 'rgba(251,246,236,0.3)' }}>
-                All suggestions read personally
+                  type="submit"
+                  disabled={loading || !suggestion.trim()}
+                  className="tm-button tm-button-primary disabled:opacity-50 w-full justify-center"
+                  style={{
+                    cursor: suggestion.trim() ? 'pointer' : 'not-allowed',
+                    border: 'none',
+                  }}>
+                  {loading ? 'Sending...' : 'Send suggestion'}
+                  {!loading && <ArrowIcon />}
+                </button>
+
+              <span className="font-caps text-[10px]" style={{ color: 'rgba(251,246,236,0.34)', lineHeight: 1.6 }}>
+                I read every suggestion. Add an email only if you want a reply.
               </span>
             </div>
           </form>

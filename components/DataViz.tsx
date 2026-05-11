@@ -8,12 +8,12 @@
  * Exports:
  *   DroughtCounter   — 21-year drought timeline
  *   PointsTimeline   — near-miss seasons bar chart
- *   WinRateRing      — circular arc stats (90% / 62%)
- *   TacticsStats     — pressing & defensive metrics
- *   RevenueChart     — revenue breakdown horizontal bars
- *   AcademyChart     — 9 academy debuts visualization
+ *   WinRateRing      — circular arc stats
+ *   TacticsStats     — current Premier League season profile
+ *   AcademyChart     — academy pathway visualization
  */
 import { useEffect, useRef, useState } from 'react';
+import { ARSENAL } from '@/lib/design';
 
 // ── Design tokens (mirrors globals.css) ────────────────────────────────────
 const C = {
@@ -50,7 +50,7 @@ function useInView(threshold = 0.25) {
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setTriggered(true); io.disconnect(); } },
+      ([e]) => { setTriggered(e.isIntersecting); },
       { threshold }
     );
     io.observe(el);
@@ -63,83 +63,111 @@ function useInView(threshold = 0.25) {
 function useCountUp(target: number, duration = 1200, active = false) {
   const [value, setValue] = useState(0);
   useEffect(() => {
-    if (!active) return;
+    if (!active) {
+      setValue(0);
+      return;
+    }
     let startTime = 0;
+    let raf = 0;
     const step = (ts: number) => {
       if (!startTime) startTime = ts;
       const p = Math.min((ts - startTime) / duration, 1);
       // ease out cubic
       const eased = 1 - Math.pow(1 - p, 3);
       setValue(Math.round(target * eased));
-      if (p < 1) requestAnimationFrame(step);
+      if (p < 1) raf = requestAnimationFrame(step);
     };
-    requestAnimationFrame(step);
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
   }, [active, target, duration]);
   return value;
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// 1. DROUGHT COUNTER — 21 years since the last title
+// 1. DROUGHT COUNTER — 21 completed league seasons without the title
 // ══════════════════════════════════════════════════════════════════════════════
 export function DroughtCounter() {
   const { ref, triggered } = useInView(0.2);
   const years = useCountUp(21, 1400, triggered);
 
   const milestones = [
-    { year: '2004', label: 'Last title' },
-    { year: '2012', label: '8 years' },
-    { year: '2016', label: 'Arteta the player leaves' },
-    { year: '2019', label: 'Arteta returns as manager' },
-    { year: '2026', label: 'End of the wait?' },
+    { year: '2004', label: 'Last league title', detail: 'The Invincibles finish unbeaten with 90 points.' },
+    { year: '2006', label: 'European heartbreak', detail: 'Arsenal lose the Champions League final 2-1 to Barcelona.' },
+    { year: '2016', label: 'The Leicester miss', detail: 'Arsenal finish second in the season Leicester win the league.' },
+    { year: '2019', label: 'Arteta returns', detail: 'A former captain comes back to rebuild the team.' },
+    { year: '2023', label: 'First Arteta near miss', detail: 'Arsenal spend 248 days top but finish second.' },
+    { year: '2024', label: 'Final-day race', detail: 'Arsenal reach 89 points and still finish short.' },
+    { year: '2026', label: 'End of the wait?', detail: 'Two league games remain with Arsenal top.' },
   ];
 
   return (
     <VizWrap>
-      <VizLabel>The Drought — 2004 to 2026</VizLabel>
-      <div ref={ref} className="flex flex-col md:flex-row items-start md:items-center gap-10">
-        {/* Big number */}
-        <div className="flex-shrink-0">
-          <div className="font-display font-black italic leading-none"
-            style={{ fontSize: 'clamp(96px, 18vw, 144px)', color: C.signal, letterSpacing: '-0.04em', lineHeight: 0.85 }}>
-            {years}
+      <VizLabel>The Drought: key moments from 2004 to 2026</VizLabel>
+      <div ref={ref}>
+        <div className="grid md:grid-cols-[180px_1fr] gap-6 md:gap-10 items-end mb-9">
+          <div>
+            <div className="font-display font-black italic leading-none"
+              style={{ fontSize: 'clamp(84px, 16vw, 118px)', color: C.signal, letterSpacing: '-0.04em', lineHeight: 0.85 }}>
+              {years}
+            </div>
+            <div className="font-caps text-[10px] font-semibold tracking-[0.18em] uppercase mt-3"
+              style={{ color: C.inkMuted, lineHeight: 1.55 }}>
+              Completed league seasons without the title
+            </div>
           </div>
-          <div className="font-caps text-[11px] font-semibold tracking-[0.2em] uppercase mt-3"
-            style={{ color: C.inkMuted }}>
-            Years without a title
-          </div>
+
+          <p className="font-caps text-[12px]"
+            style={{ color: 'rgba(22,36,63,0.56)', lineHeight: 1.75, maxWidth: 560 }}>
+            This is only a snippet of the wait. There are many other almosts, collapses,
+            exits and rebuilds missing. That is what gives this journey its weight.
+          </p>
         </div>
 
         {/* Timeline */}
-        <div className="flex-1 relative" style={{ minHeight: 120 }}>
-          {/* Spine */}
-          <div className="absolute left-3 top-0 bottom-0 w-px" style={{ background: C.inkFaint }}/>
-          <div className="absolute left-3 top-0 w-px"
-            style={{
-              background: C.signal,
-              height: triggered ? '100%' : '0%',
-              transition: 'height 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s',
-            }}/>
-
-          <div className="flex flex-col gap-4 pl-10">
-            {milestones.map((m, i) => (
-              <div key={m.year} className="relative flex items-center gap-3"
+        <div className="relative overflow-hidden">
+          <div className="flex flex-col">
+          {milestones.map((m, i) => {
+            const active = i === milestones.length - 1;
+            return (
+              <div key={m.year}
+                className="relative grid grid-cols-[72px_24px_1fr] md:grid-cols-[92px_28px_1fr] gap-3 md:gap-5 py-4"
                 style={{
                   opacity: triggered ? 1 : 0,
-                  transform: triggered ? 'translateX(0)' : 'translateX(-12px)',
-                  transition: `opacity 0.45s ease ${i * 0.14 + 0.6}s, transform 0.45s ease ${i * 0.14 + 0.6}s`,
+                  transform: triggered ? 'translateX(0)' : 'translateX(-10px)',
+                  transition: `opacity 0.42s ease ${i * 0.08 + 0.25}s, transform 0.42s ease ${i * 0.08 + 0.25}s`,
                 }}>
-                {/* Dot */}
-                <div className="absolute -left-7 w-2 h-2 rounded-full"
-                  style={{ background: i === milestones.length - 1 ? C.signal : C.parchment }}/>
-                <div className="font-display font-black italic text-[17px]"
-                  style={{ color: i === milestones.length - 1 ? C.signal : C.ink, letterSpacing: '-0.02em' }}>
-                  {m.year}
+                <div className="text-right pt-0.5">
+                  <div className="font-display font-black italic"
+                    style={{ color: active ? C.signal : C.ink, fontSize: 28, letterSpacing: '-0.03em', lineHeight: 0.9 }}>
+                    {m.year}
+                  </div>
                 </div>
-                <div className="font-caps text-[11px]" style={{ color: C.inkMuted }}>
-                  {m.label}
+
+                <div className="relative flex justify-center">
+                  <div className="absolute top-3 bottom-[-18px] w-px"
+                    style={{
+                      background: i === milestones.length - 1 ? 'transparent' : C.inkFaint,
+                    }}/>
+                  <div className="relative mt-2 w-[9px] h-[9px] rounded-full"
+                    style={{
+                      background: active ? C.signal : C.parchment,
+                      boxShadow: `0 0 0 4px #F7F1E6`,
+                    }}/>
+                </div>
+
+                <div className="pb-4" style={{ borderBottom: i === milestones.length - 1 ? 'none' : `1px solid ${C.inkFaint}` }}>
+                  <div className="font-caps text-[11px] font-semibold tracking-[0.12em] uppercase"
+                    style={{ color: active ? C.signal : C.ink, lineHeight: 1.45 }}>
+                    {m.label}
+                  </div>
+                  <p className="font-caps text-[11px] mt-2 max-w-[58ch]"
+                    style={{ color: C.inkMuted, lineHeight: 1.65 }}>
+                    {m.detail}
+                  </p>
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
         </div>
       </div>
@@ -156,8 +184,8 @@ export function PointsTimeline() {
   const seasons = [
     { label: '22/23', pts: 84, position: '2nd', isCurrent: false },
     { label: '23/24', pts: 89, position: '2nd', isCurrent: false },
-    { label: '24/25', pts: 88, position: '2nd', isCurrent: false },
-    { label: '25/26', pts: 87, position: '1st', isCurrent: true },
+    { label: '24/25', pts: ARSENAL.runnerUp2425.points, position: '2nd', isCurrent: false },
+    { label: '25/26', pts: ARSENAL.currentPoints, position: '1st', isCurrent: true },
   ];
 
   const maxPts = 95;
@@ -217,8 +245,8 @@ export function PointsTimeline() {
         {/* Baseline */}
         <div style={{ height: 1, background: C.inkFaint, marginTop: 4 }}/>
         <div className="font-caps text-[10px] mt-4" style={{ color: 'rgba(22,36,63,0.35)', lineHeight: 1.7 }}>
-          84, 89, 88 pts — each enough to win most Premier League seasons in history. None enough to win
-          this one. The fourth attempt has been different from the first whistle.
+          2025/26 is current table data after {ARSENAL.currentRecord.played} matches, not a projected final total.
+          Win the remaining two and the ceiling is {ARSENAL.maxPossiblePoints} points.
         </div>
       </div>
     </VizWrap>
@@ -230,9 +258,9 @@ export function PointsTimeline() {
 // ══════════════════════════════════════════════════════════════════════════════
 export function WinRateRing() {
   const { ref, triggered } = useInView(0.2);
-  const pct90 = useCountUp(90, 1000, triggered);
-  const pct62 = useCountUp(62, 1200, triggered);
-  const pct90title = useCountUp(90, 1100, triggered);
+  const pctPoints = useCountUp(Math.round((ARSENAL.currentPoints / ARSENAL.maxPossiblePoints) * 100), 1000, triggered);
+  const pctWinRate = useCountUp(Math.round((ARSENAL.currentRecord.won / ARSENAL.currentRecord.played) * 100), 1200, triggered);
+  const pctArteta = useCountUp(62, 1100, triggered);
 
   const R = 52;
   const circ = 2 * Math.PI * R;
@@ -244,28 +272,28 @@ export function WinRateRing() {
 
   const rings = [
     {
-      label: 'Win rate when\nleading at 90 mins',
-      value: pct90,
-      pct: 90,
+      label: 'Current points\nof max possible',
+      value: pctPoints,
+      pct: Math.round((ARSENAL.currentPoints / ARSENAL.maxPossiblePoints) * 100),
       color: C.signal,
       delay: '0.2s',
-      sub: 'PL 2024/25',
+      sub: `${ARSENAL.currentPoints}/${ARSENAL.maxPossiblePoints}`,
     },
     {
-      label: 'Arteta all-comps\nwin rate',
-      value: pct62,
-      pct: 62,
+      label: 'Premier League\nwin rate',
+      value: pctWinRate,
+      pct: Math.round((ARSENAL.currentRecord.won / ARSENAL.currentRecord.played) * 100),
       color: C.gold,
       delay: '0.45s',
-      sub: 'Dec 2019 – present',
+      sub: `${ARSENAL.currentRecord.won}/${ARSENAL.currentRecord.played}`,
     },
     {
-      label: 'Title probability\nat time of writing',
-      value: pct90title,
-      pct: 90,
+      label: 'Arteta all-competition\nwin rate',
+      value: pctArteta,
+      pct: 62,
       color: C.ink,
       delay: '0.65s',
-      sub: 'Statistical models',
+      sub: 'approx.',
     },
   ];
 
@@ -309,21 +337,22 @@ export function WinRateRing() {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// 4. TACTICS STATS — pressing & defensive metrics
+// 4. SEASON PROFILE — current Premier League table metrics
 // ══════════════════════════════════════════════════════════════════════════════
 export function TacticsStats() {
   const { ref, triggered } = useInView(0.2);
+  const goalDifference = ARSENAL.goalsFor - ARSENAL.goalsAgainst;
 
   const stats = [
-    { label: 'High press recoveries per 90', value: 62, max: 100, color: C.signal, unit: '' },
-    { label: 'Defensive transition speed', value: 78, max: 100, color: C.ink, unit: '' },
-    { label: 'Set piece win rate', value: 71, max: 100, color: C.gold, unit: '' },
-    { label: 'PPDA (lower = more intense press)', value: 8.4, max: 18, color: C.signal, unit: '', lower: true },
+    { label: 'Points', value: ARSENAL.currentPoints, max: ARSENAL.maxPossiblePoints, color: C.signal, unit: '' },
+    { label: 'League wins', value: ARSENAL.currentRecord.won, max: ARSENAL.currentRecord.played, color: C.ink, unit: '' },
+    { label: 'Goal difference', value: goalDifference, max: 60, color: C.gold, unit: '' },
+    { label: 'Goals conceded', value: ARSENAL.goalsAgainst, max: 60, color: C.signal, unit: '', lower: true },
   ];
 
   return (
     <VizWrap>
-      <VizLabel>Tactical metrics — Arsenal 2025/26 (indexed to Premier League max)</VizLabel>
+      <VizLabel>Premier League profile — Arsenal 2025/26 after {ARSENAL.currentRecord.played} matches</VizLabel>
       <div ref={ref} className="flex flex-col gap-6">
         {stats.map((s, i) => {
           const pct = s.lower
@@ -353,7 +382,8 @@ export function TacticsStats() {
           );
         })}
         <div className="font-caps text-[10px] mt-2" style={{ color: 'rgba(22,36,63,0.35)', lineHeight: 1.6 }}>
-          PPDA = Passes Allowed Per Defensive Action. Arsenal&apos;s figure ranks among the top three in Europe.
+          Current record: {ARSENAL.currentRecord.won} wins, {ARSENAL.currentRecord.drawn} draws, {ARSENAL.currentRecord.lost} losses,
+          {ARSENAL.goalsFor} scored, {ARSENAL.goalsAgainst} conceded, {ARSENAL.goalDifference} goal difference.
         </div>
       </div>
     </VizWrap>
@@ -361,87 +391,22 @@ export function TacticsStats() {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// 5. REVENUE CHART — financial breakdown
-// ══════════════════════════════════════════════════════════════════════════════
-export function RevenueChart() {
-  const { ref, triggered } = useInView(0.2);
-
-  const streams = [
-    { label: 'Champions League', value: 122.8, total: 691, color: C.signal },
-    { label: 'Premier League', value: 172.5, total: 691, color: C.ink },
-    { label: 'Commercial & Other', value: 395.7, total: 691, color: C.gold },
-  ];
-
-  return (
-    <VizWrap>
-      <VizLabel>Revenue breakdown — Arsenal FC 2025/26 (projected £691m+)</VizLabel>
-      <div ref={ref} className="flex flex-col gap-7">
-        {streams.map((s, i) => {
-          const pct = (s.value / s.total) * 100;
-          return (
-            <div key={s.label}>
-              <div className="flex justify-between items-baseline mb-2">
-                <div className="font-caps text-[12px] font-semibold" style={{ color: 'rgba(22,36,63,0.7)' }}>
-                  {s.label}
-                </div>
-                <div className="font-display font-black italic text-[20px]" style={{ color: s.color }}>
-                  £{s.value}m
-                </div>
-              </div>
-              {/* Track */}
-              <div style={{ height: 8, background: C.parchFaint, borderRadius: 4, overflow: 'hidden' }}>
-                <div style={{
-                  height: '100%',
-                  width: triggered ? `${pct}%` : '0%',
-                  background: s.color,
-                  borderRadius: 4,
-                  transition: `width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${i * 0.2}s`,
-                }}/>
-              </div>
-              <div className="font-caps text-[10px] mt-1" style={{ color: 'rgba(22,36,63,0.35)' }}>
-                {pct.toFixed(0)}% of total
-              </div>
-            </div>
-          );
-        })}
-
-        {/* Total */}
-        <div className="pt-6" style={{ borderTop: `1px solid ${C.inkFaint}` }}>
-          <div className="flex justify-between items-baseline">
-            <div className="font-caps text-[11px] font-semibold tracking-[0.14em] uppercase" style={{ color: C.inkMuted }}>
-              Total projected
-            </div>
-            <div className="font-display font-black italic text-[28px]" style={{ color: C.ink }}>
-              £691m+
-            </div>
-          </div>
-          <div className="font-caps text-[10px] mt-1" style={{ color: 'rgba(22,36,63,0.35)', lineHeight: 1.6 }}>
-            Declan Rice alone cost £105m. That level of investment is only possible at this revenue scale.
-          </div>
-        </div>
-      </div>
-    </VizWrap>
-  );
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// 6. ACADEMY CHART — 9 debuts + key players
+// 5. ACADEMY CHART — key academy pathway players
 // ══════════════════════════════════════════════════════════════════════════════
 export function AcademyChart() {
   const { ref, triggered } = useInView(0.2);
-  const count = useCountUp(9, 900, triggered);
+  const count = useCountUp(4, 900, triggered);
 
   const players = [
-    { name: 'Bukayo Saka',           joined: 'Age 7',   debut: '2019', pos: 'RW' },
-    { name: 'Gabriel Martinelli',    joined: 'Age 18',  debut: '2019', pos: 'LW' },
-    { name: 'Myles Lewis-Skelly',    joined: 'Age 12',  debut: '2024', pos: 'LB' },
-    { name: 'Ethan Nwaneri',         joined: 'Age 14',  debut: '2022', pos: 'AM' },
-    { name: '+ 5 more this season',  joined: '—',       debut: '2025', pos: '—'  },
+    { name: 'Bukayo Saka',           joined: 'Age 8',   debut: '2018', pos: 'RW' },
+    { name: 'Ethan Nwaneri',         joined: 'Age 8',   debut: '2022', pos: 'AM' },
+    { name: 'Myles Lewis-Skelly',    joined: 'Age 8',   debut: '2024', pos: 'LB' },
+    { name: 'Max Dowman',            joined: 'Age 10',  debut: '2025', pos: 'AM' },
   ];
 
   return (
     <VizWrap>
-      <VizLabel>Arsenal Academy — first-team impact 2019–2026</VizLabel>
+      <VizLabel>Arsenal Academy — first-team pathway 2019–2026</VizLabel>
       <div ref={ref}>
         {/* Hero number */}
         <div className="flex items-end gap-6 mb-10">
@@ -451,10 +416,10 @@ export function AcademyChart() {
           </div>
           <div>
             <div className="font-caps text-[12px] font-semibold tracking-[0.12em] uppercase" style={{ color: C.ink }}>
-              academy debuts
+              Hale End names
             </div>
             <div className="font-caps text-[11px]" style={{ color: C.inkMuted }}>
-              first team — 2025/26 season
+              first-team pathway
             </div>
           </div>
         </div>
@@ -485,8 +450,7 @@ export function AcademyChart() {
         </div>
 
         <div className="font-caps text-[10px] mt-6" style={{ color: 'rgba(22,36,63,0.35)', lineHeight: 1.7 }}>
-          These are not academy products given a sympathy debut. They are players the system produced
-          specifically for this moment — trained inside the Arteta methodology from the start.
+          Dowman became the Premier League&apos;s youngest goalscorer in March 2026; Nwaneri is on loan, but remains part of the pathway.
         </div>
       </div>
     </VizWrap>
